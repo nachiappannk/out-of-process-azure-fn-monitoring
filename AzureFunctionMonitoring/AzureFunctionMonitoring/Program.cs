@@ -10,9 +10,11 @@ namespace AzureFunctionMonitoring
         public static void Main()
         {
             var host = new HostBuilder()
-                .ConfigureFunctionsWorkerDefaults()
+                .ConfigureFunctionsWorkerDefaults(builder =>
+                    {
+                        builder.UseMiddleware<ExceptionLoggingMiddleware>();
+                    })
                 .Build();
-
             host.Run();
         }
     }

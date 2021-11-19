@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.Functions.Worker.Middleware;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace AzureFunctionMonitoring
 {
@@ -65,6 +68,28 @@ namespace AzureFunctionMonitoring
                 return SendResponse(req, HttpStatusCode.Accepted, "A different message");
             }
             return SendResponse(req, HttpStatusCode.OK, "Welcome to Azure Functions!");
+        }
+    }
+
+    public class ExceptionLoggingMiddleware : IFunctionsWorkerMiddleware
+    {
+        public async Task Invoke(FunctionContext context, FunctionExecutionDelegate next)
+        {
+            try
+            {
+                // Code before function execution here
+                await next(context);
+                // Code after function execution here
+            }
+            catch (Exception ex)
+            {
+                var log = context.GetLogger<ExceptionLoggingMiddleware>();
+                log.LogError(ex, JsonConvert.SerializeObject(new Dictionary<string, string>() { 
+                    ["UnhandeledException"] = "Yes",
+                    ["ExceptionType"] = ex.GetType().FullName 
+                }));
+                throw;
+            }
         }
     }
 }

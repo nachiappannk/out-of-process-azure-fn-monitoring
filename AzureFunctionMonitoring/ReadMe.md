@@ -46,3 +46,10 @@ requests
 | project ['HttpPath'] = tostring(customDimensions['HttpPath']), ['HttpMethod']= tostring(customDimensions["HttpMethod"]),  resultCode, duration
 | summarize ['Pc100'] = percentile(duration, 100), ['Pc95'] = percentile(duration, 95), ['Pc75'] = percentile(duration, 75), ['Pc50'] = percentile(duration, 50) by HttpPath
 ```
+
+```
+traces 
+| where message has "UnhandeledException" 
+| project ["ExceptionType"] =  tostring(parse_json(message).ExceptionType)
+| summarize count() by ExceptionType
+```
