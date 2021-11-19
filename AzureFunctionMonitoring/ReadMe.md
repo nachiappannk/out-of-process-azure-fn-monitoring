@@ -32,4 +32,11 @@
  * Create function plan `az functionapp plan create -g %RG_NAME% -n %PLAN_NAME% --sku EP1 --is-linux true`
 
 # Updating code and deploying function
- * Deploy the image in registry `az functionapp create --resource-group %RG_NAME% -p %PLAN_NAME% --deployment-container-image-name nachiacrdemo.azurecr.io/%IMAGE_NAME% --docker-registry-server-password %CONTAINER_REG_PASSWORD% --docker-registry-server-user nachiacrdemo --runtime dotnet-isolated --runtime-version 5.0 --functions-version 3 --name %FUNCTION_NAME% --storage-account %STORAGE_NAME%`
+ * Deploy the image in registry `az functionapp create --resource-group %RG_NAME% -p %PLAN_NAME% --deployment-container-image-name nachiacrdemo.azurecr.io/%IMAGE_NAME% --docker-registry-server-password %CONTAINER_REG_PASSWORD% --docker-registry-server-user nachiacrdemo --runtime dotnet-isolated --runtime-version 5.0 --functions-version 3 --name %FEATURE_NAME% --storage-account %STORAGE_NAME%`
+ 
+# Run the query
+```
+requests 
+| project ['HttpPath'] = tostring(customDimensions['HttpPath']), ['HttpMethod']= tostring(customDimensions["HttpMethod"]),  resultCode
+| summarize Count=count() by HttpMethod, HttpPath, resultCode
+```
