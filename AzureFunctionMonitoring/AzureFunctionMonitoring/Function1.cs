@@ -10,7 +10,7 @@ namespace AzureFunctionMonitoring
     public static class Function1
     {
         [Function("function1")]
-        public static HttpResponseData Run1([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req,
+        public static HttpResponseData Run1([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req,
             FunctionContext executionContext)
         {
             var random = new Random().Next(0, 1000);
@@ -43,7 +43,7 @@ namespace AzureFunctionMonitoring
         }
 
         [Function("function2")]
-        public static HttpResponseData Run2([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req,
+        public static HttpResponseData Run2([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req,
     FunctionContext executionContext)
         {
             var random = new Random().Next(0, 1000);
