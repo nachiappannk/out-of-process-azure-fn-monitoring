@@ -40,3 +40,9 @@ requests
 | project ['HttpPath'] = tostring(customDimensions['HttpPath']), ['HttpMethod']= tostring(customDimensions["HttpMethod"]),  resultCode
 | summarize Count=count() by HttpMethod, HttpPath, resultCode
 ```
+
+```
+requests 
+| project ['HttpPath'] = tostring(customDimensions['HttpPath']), ['HttpMethod']= tostring(customDimensions["HttpMethod"]),  resultCode, duration
+| summarize ['Pc100'] = percentile(duration, 100), ['Pc95'] = percentile(duration, 95), ['Pc75'] = percentile(duration, 75), ['Pc50'] = percentile(duration, 50) by HttpPath
+```
