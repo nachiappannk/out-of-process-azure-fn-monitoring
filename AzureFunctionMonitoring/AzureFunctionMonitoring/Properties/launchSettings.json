@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "AzureFunctionMonitoring": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 33798,
+      "useSSL": false
+    }
+  }
+}
